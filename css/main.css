@@ -79,12 +79,10 @@ body {
 }
 #myDiv {
 	color:white;
-	padding-left: 420px;
-	vertical-align: middle;
 	
 }
 #Dvis {
-	align-content: center;
+	align-items: center;
 }
 /**
  * links - (_document-setup.scss)

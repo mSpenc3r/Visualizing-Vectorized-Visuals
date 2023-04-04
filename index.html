@@ -6,6 +6,8 @@
 	<script src="https://kit.fontawesome.com/418bff0045.js" crossorigin="anonymous"></script>
 	<script src='https://cdn.plot.ly/plotly-2.18.2.min.js'></script>
 	<script src='https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js'></script>
+	<script src="https://d3js.org/d3.v4.js"></script>
+
    <!--- basic page needs
    ================================================== -->
    <meta charset="utf-8">
@@ -23,7 +25,8 @@
    ================================================== -->
    <link rel="stylesheet" href="css/base.css">  
    <link rel="stylesheet" href="css/main.css">
-   <link rel="stylesheet" href="css/vendor.css">     
+   <link rel="stylesheet" href="css/vendor.css">  
+   <link rel="stylesheet" href="css/data.css">   
 
    <!-- script
    ================================================== -->   
@@ -115,59 +118,66 @@
 	</div>   		
 </div> 
 <div class="row about-content">
-	<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis molestie eget lacus vel dictum. Aenean interdum pharetra lorem et venenatis. Phasellus sodales ante ac gravida condimentum. Morbi porta, risus eget laoreet fermentum, metus lorem accumsan elit, quis sodales enim lorem vel mi. Aliquam sed sem eget eros fermentum imperdiet. Sed sit amet leo pretium, pretium eros a, eleifend sapien. Mauris sodales rhoncus vestibulum. Nam vestibulum aliquam fringilla.s
+	<p>A 3D representation of the relationship between artists, the movement in which their work was constructed, and the time period in which it was published would allow for a more comprehensive understanding of the artistic landscape.
+
+		By representing these three factors in three dimensions, we could visualize the interconnections between them, seeing how artists and movements related to each other across time.
+		
+		This visualization could help us better understand the evolution of artistic movements over time, revealing how artists and movements influenced each other and how they responded to changes in the cultural and historical context.
+		
+		Additionally, a 3D representation could reveal patterns and clusters in the data that might not be immediately apparent in a 2D representation, helping us to identify new connections and relationships between artists and movements. 
 	</p>
 </div>
 	<section id="Dvis">
 		
-   <div id="myDiv">
-	<script>
-					d3.csv('https://raw.githubusercontent.com/plotly/datasets/master/3d-scatter.csv', function(err, rows){
-			function unpack(rows, key) {
-				return rows.map(function(row)
-				{ return row[key]; });}
+		<div id="myDiv">
+			<script>
+							d3.csv('https://raw.githubusercontent.com/plotly/datasets/master/3d-scatter.csv', function(err, rows){
+					function unpack(rows, key) {
+						return rows.map(function(row)
+						{ return row[key]; });}
 
-			var trace1 = {
-				x:unpack(rows, 'x1'), y: unpack(rows, 'y1'), z: unpack(rows, 'z1'),
-				mode: 'markers',
-				marker: {
-					size: 12,
-					line: {
-					color: 'rgba(217, 217, 217, 0.14)',
-					width: 0.5},
-					opacity: 0.8},
-				type: 'scatter3d'
-			};
+					var Artists = {
+						x:unpack(rows, 'x1'), y: unpack(rows, 'y1'), z: unpack(rows, 'z1'),
+						mode: 'markers',
+						marker: {
+							size: 12,
+							line: {
+							color: 'rgba(217, 217, 217, 0.14)',
+							width: 0.5},
+							opacity: 0.8},
+						type: 'scatter3d'
+					};
 
-			var trace2 = {
-				x:unpack(rows, 'x2'), y: unpack(rows, 'y2'), z: unpack(rows, 'z2'),
-				mode: 'markers',
-				marker: {
-					color: 'rgb(127, 127, 127)',
-					size: 12,
-					symbol: 'circle',
-					line: {
-					color: 'rgb(204, 204, 204)',
-					width: 1},
-					opacity: 0.8},
-				type: 'scatter3d'};
+					var Works = {
+						x:unpack(rows, 'x2'), y: unpack(rows, 'y2'), z: unpack(rows, 'z2'),
+						mode: 'markers',
+						marker: {
+							color: 'rgb(127, 127, 127)',
+							size: 12,
+							symbol: 'circle',
+							line: {
+							color: 'rgb(204, 204, 204)',
+							width: 1},
+							opacity: 0.8},
+						type: 'scatter3d'};
 
-			var data = [trace1, trace2];
-			var layout = {
-				autosize: false,
-  				width: 700,
-  				height: 500,
-				margin: {
-				l: 0,
-				r: 0,
-				b: 0,
-				t: 0
-			}};
-			Plotly.newPlot('myDiv', data, layout);
-			});
-	</script>
-	
-   </div>
+					var data = [Artists, Works];
+					
+					var layout = {
+						autosize: false,
+						width: 1600,
+						height: 500,
+						margin: {
+						l: 0,
+						r: 0,
+						b: 0,
+						t: 0
+					}};
+					Plotly.newPlot('myDiv', data, layout, {displayModeBar: false});
+					});
+			</script>
+			
+		</div>
 	
 </section>
 
@@ -188,664 +198,66 @@
 		</p>
 	</div>
 </section>
- 
- 
- <!--
-   <section id="portfolio">
+<section>
+	<div id="my_dataviz"></div>
+	<script>
+			// set the dimensions and margins of the graph
+			var margin = {top: 30, right: 30, bottom: 70, left: 60},
+				width = 460 - margin.left - margin.right,
+				height = 400 - margin.top - margin.bottom;
 
-		<div class="row section-intro">
-   		<div class="col-twelve">
+			// append the svg object to the body of the page
+			var svg = d3.select("#my_dataviz")
+			.append("svg")
+				.attr("width", width + margin.left + margin.right)
+				.attr("height", height + margin.top + margin.bottom)
+			.append("g")
+				.attr("transform",
+					"translate(" + margin.left + "," + margin.top + ")");
 
-   			<h5>Visualizations</h5>
+			// Parse the Data
+			d3.csv("/data/artists.csv", function(data) {
 
-   			<p style="text-align: left;">These visualizations were developed using d3.js, plotly.js and three.js</p>
+			// sort data
+			data.sort(function(b, a) {
+				return a.Value - b.Value;
+			});
 
-   		</div>   		
-   	</div> <!-- /section-intro--> 
-	<!--
-   	<div class="row portfolio-content">
+			// X axis
+			var x = d3.scaleBand()
+				.range([ 0, width ])
+				.domain(data.map(function(d) { return d.Artist; }))
+				.padding(0.2);
+			svg.append("g")
+				.attr("transform", "translate(0," + height + ")")
+				.call(d3.axisBottom(x))
+				.selectAll("text")
+				.attr("transform", "translate(-10,0)rotate(-45)")
+				.style("text-anchor", "end");
 
-   		<div class="col-twelve">
+			// Add Y axis
+			var y = d3.scaleLinear()
+				.domain([0, 13000])
+				.range([ height, 0]);
+			svg.append("g")
+				.call(d3.axisLeft(y));
 
-   			<!-- portfolio-wrapper -->
-			<!--
-	         <div id="folio-wrapper" class="block-1-2 block-mob-full stack">
+			// Bars
+			svg.selectAll("mybar")
+				.data(data)
+				.enter()
+				.append("rect")
+				.attr("x", function(d) { return x(d.Artist); })
+				.attr("y", function(d) { return y(d.Value); })
+				.attr("width", x.bandwidth())
+				.attr("height", function(d) { return height - y(d.Value); })
+				.attr("fill", "#69b3a2")
 
-				<div class="bgrid folio-item">
-					<div class="item-wrap">
-						<img src="images/portfolio/ArtistLaunch Landing View.PNG" alt="AL IMG">
-					   <a href="#modal-05" class="overlay">
-						  <div class="folio-item-table">
-							  <div class="folio-item-cell">
-								  <h3 class="folio-title">ArtistLaunch</h3>	     					    
-										  <span class="folio-types">
-											   UX / UI Design, Design Leadership
-										</span>		     		
-									 </div>	                      	
-						  </div>                    
-					   </a>
-					</div>
-					 </div>
-					 <div class="bgrid folio-item">
-						<div class="item-wrap">
-							<img src="images/portfolio/SmartWealth Landing Image.PNG" alt="AL IMG">
-						   <a href="#modal-02" class="overlay">
-							  <div class="folio-item-table">
-								  <div class="folio-item-cell">
-									  <h3 class="folio-title">SmartWealth</h3>	     					    
-											  <span class="folio-types">
-												   UX / UI Design, Service Design
-											</span>		     		
-										 </div>	                      	
-							  </div>                    
-						   </a>
-						</div>
-						 </div>
-	<div class="bgrid folio-item">
-	               <div class="item-wrap">
-	               	<img src="images/portfolio/Brigham Portfolio Image.PNG" alt="BWH Logo">
-	                  <a href="#modal-06" class="overlay">
-	                     <div class="folio-item-table">
-	                     	<div class="folio-item-cell">
-	                     		<h3 class="folio-title">BEI App Development</h3>	     					    
-		     					    	<span class="folio-types">
-		     					       	  UX / UI Design, Front end Development
-		     					      </span>		     		
-		     					   </div>	                      	
-	                     </div>                    
-	                  </a>
-	               </div>
-	        		</div>
-	         	<div class="bgrid folio-item">
-	               <div class="item-wrap">
-					   <img src="images/portfolio/Canvas ReDesign Landing Image.PNG" alt="Generate Logo">
-	                  <a href="#modal-04" class="overlay">	                  	           
-	                     <div class="folio-item-table">
-	                     	<div class="folio-item-cell">
-		     					       <h3 class="folio-title">Canvas Re-design</h3>	     					    
-		     					    	 <span class="folio-types">
-											UX / UI Design
-		     					       </span>
-		     					   </div>	                      	
-	                     </div>                    
-	                  </a>
-	               </div>	               
-	        		</div> <!-- /folio-item -->
-					<!--
-	        		<div class="bgrid folio-item">
-	               <div class="item-wrap">
-					<img src="images/portfolio/Generate Portfolio Image.PNG" alt="ArtistLaunch">
-	               	<a href="#modal-01" class="overlay">              		                  
-	                     <div class="folio-item-table">
-	                     	<div class="folio-item-cell">
-	                     		<h3 class="folio-title">Generate Website</h3>	     					    
-		     					    	<span class="folio-types">
-		     					       	 UX / UI Design
-		     					      </span>		     		
-		     					   </div> 	                      	
-	                     </div>                    
-	                  </a>
-	               </div>
-	        		</div> <!-- /folio-item -->
-				<!--	
-	            <div class="bgrid folio-item">
-	               <div class="item-wrap">
-	               	<img src="images/portfolio/Jigsaw Portfolio Image.PNG"alt="Logo">
-	                  <a href="#modal-03" class="overlay">             		                  
-	                     <div class="folio-item-table">
-	                     	<div class="folio-item-cell">
-	                     		<h3 class="folio-title">JIGSAW</h3>	     					    
-		     					    	<span class="folio-types">
-		     					       	  UX / UI Design
-		     					      </span>		     		
-		     					   </div> 	                      	
-	                     </div>                    
-	                  </a>
-	               </div>
-	        		</div> <!-- /folio-item -->
-					<!--
-	            <div class="bgrid folio-item">
-	               <div class="item-wrap">
-	               	<img src="images/portfolio/racetrackimm.JPG" alt="Code">
-	                  <a href="#modal-04" class="overlay">                  	                 
-	                     <div class="folio-item-table">
-	                     	<div class="folio-item-cell">
-	                     		<h3 class="folio-title">Racetrack game</h3>	     					    
-		     					    	<span class="folio-types">
-		     					       	  Engineering - Arduino
-		     					      </span>		     		
-		     					   </div>  	                      	
-	                     </div>                    
-	                  </a>
-	               </div> -->
-	        		</div> <!-- /folio-item -->     
-					<!--
-	        		<div class="bgrid folio-item">
-	               <div class="item-wrap">
-	               	<img src="images/portfolio/3dimageLARGE.jpg" alt="Poster">
-	                  <a href="#modal-05" class="overlay">             		                  
-	                     <div class="folio-item-table">
-	                     	<div class="folio-item-cell">
-	                     		<h3 class="folio-title">Mathematics via Human Interaction</h3>	     					    
-		     					    	<span class="folio-types">
-		     					       	  Product Design
-		     					      </span>		     		
-		     					   </div> 	                      	
-	                     </div>                    
-	                  </a>
-	               </div> -->
-	        		</div> 
-
-	             <!-- /folio-item -->   
-
-	            <!-- modal popups - begin
-	            ============================================================= -->
-	            <div id="modal-01" class="popup-modal slider mfp-hide">	
-
-				     	<div class="media">
-				     		<img src="images/portfolio/Generate Portfolio Image (stage 2).PNG" alt="" />
-				     	</div>      	
-
-					   <div class="description-box">
-					      
-							<h4>Generate Product Development - Website</h4>		      
-					      <p>As a UX / UI Designer at Generate Product Development, I, along with a team of Designers of Developers, were tasked with
-							  completely redesigning the company website from the ground up. We worked the problem from research and
-							  personas right through to high fidelity wireframes and prototypes across a semester of intense work.
-							  We worked in Figma for the majority of this project before we handed it off to the developers. Here,
-							  our main focus was creating a website that felt more academically diverse than our current one, which
-							  very heavily focuses on the engineering side. Working closely with our clients and explaining our design
-							  choices along the way, our team rapidly extracted some complex branding and interface problems and
-							  proposed rigorous solutions to them within a very short timeframe. 
-							
-						  </p>
-					      <div class="categories">UX / UI Design</div>			               
-					   </div>
-
-			         <div class="link-box">
-			            <a href="https://mfspen.github.io/Portfolio/">Home</a>
-					      <a href="#" class="popup-modal-dismiss">Close</a>
-			         </div>		      
-
-				   </div> <!-- /modal-01 -->
-
-				   <div id="modal-02" class="popup-modal slider mfp-hide">	
-				     	<div class="media">
-				     		<img src="images/portfolio/SmartWealth Modal View.PNG" alt="" />
-				     	</div>      	
-
-					   <div class="description-box">
-						<h4>SmartWealth</h4>		      
-						<p>SmartWealth is a financial management application I developed as apart of my Interaction Design 2 course
-							that is targeted at a graduating age group to make the transition to finacial independance easier. This 
-							began with service ideation, which was done through user research (interviews), followed by brand development,
-							conceptual model and market analysis, heros journey and storyboarding, UI spec and VD Spec, and finally a UX experience
-							prototype. This is one of the few times I have truly worked an idea from the absolute ground (no idea) via
-							methods like creating a conceptual model and utilizing market analysis.
-
-						</p>
-
-					      <div class="categories">UX / UI Design, Service Design</div>			               
-					   </div>
- 
-			         <div class="link-box">
-						<a href="https://mfspen.github.io/Portfolio/">Home</a>
-					      <a href="#" class="popup-modal-dismiss">Close</a>
-			         </div>		      
-
-				   </div> <!-- /modal-02 -->
-
-				   <div id="modal-03" class="popup-modal slider mfp-hide">	
-
-				     	<div class="media">
-				     		<img src="images/portfolio/JigSaw Portfolio Image (stage 2).PNG" alt="" />
-				     	</div>      	
-
-					   <div class="description-box">
-					      <h4>JIGSAW</h4>		      
-					      <p>JIGSAW is a portfolio building platform I built, targeting portfolio-oriented students at Northeastern
-							  looking to go on co-op. During my first co-op process I found very little time during the semester to
-							  build my own portfolio, and found websites like Wixx and Squarespace time consuming and overloading in
-							  terms of structure, information and animations. So, as a project during my Interaction Design class, I
-							  set out to solve this issue. This project started with building personas and potential user flows, right
-							  through user testing adn brand development, all the way to high fidelity wireframes. This was my first
-							  ever UX / UI project that was worked all the way through.
-						  </p>
-
-					      <div class="categories">UX / UI Design</div>			               
-					   </div>
-
-			         <div class="link-box">
-						<a href="https://mfspen.github.io/Portfolio/">Home</a>
-					      <a href="#" class="popup-modal-dismiss">Close</a>
-			         </div>		      
-
-				   </div> <!-- /modal-03 -->
-
-				   <div id="modal-04" class="popup-modal slider mfp-hide">	
-
-				     	<div class="media">
-				     		<img src="images/portfolio/Canvas ReDesign Modal Image.PNG" alt="" />
-				     	</div>      	
-
-					   <div class="description-box">
-					      <h4>Canvas Re-design</h4>		      
-					      <p>For an initial project in my Interaction Design coursework, were tasked with redesigning an application that
-							  we thought was poorly designed from a workflow and UI standpoint. I chose canvas, a common choice by educational
-							  insititutions across the country to host coursework and educational content. This began with analysis of the
-							  poor parts of the current application including a breakdown of workflows and the base UI, followed by UI Spec
-								and lo-fi reconstruction, VD Spec and hi-fi development.
-							  
-						  </p>
-
-					      <div class="categories">Engineering - Arduino</div>			               
-					   </div>
-
-			         <div class="link-box">
-						<a href="https://mfspen.github.io/Portfolio/">Home</a>
-					      <a href="#" class="popup-modal-dismiss">Close</a>
-			         </div>		      
-
-				   </div> <!-- /modal-05 -->
-
-				   <div id="modal-05" class="popup-modal slider mfp-hide">	
-
-				     	<div class="media">
-				     		<img src="images/portfolio/ArtistLaunch Modal View.PNG" alt=""/>
-				     	</div>      	
-
-					   <div class="description-box">
-					      <h4>ArtistLaunch</h4>		      
-					      <p>A project I completed during my time at Generate Product Development, ArtistLaunch aims to unify artists and playlist curators
-							  on applications like Spotify, Apple Music and Pandora. Through this relationship formed by ArtistLaunch, where curators browse
-							  and bid on artist's songs, negotiations can be made between two parties, enabling artists that might not otherwise have a wide 
-							  reach or much visiblity to increase their exposure. I was the Design Lead on this project, where myself and 4 other designers
-							  worked this project from the ground up, right from workflows and mood-boards to a fully functional prototype in a hi-fi state.
-						  </p>
-
-					      <div class="categories">UX / UI Design, Design Leadership</div>			               
-					   </div>
-
-			         <div class="link-box">
-						<a href="https://mfspen.github.io/Portfolio/">Home</a>
-					      <a href="#" class="popup-modal-dismiss">Close</a>
-			         </div>		      
-
-				   </div> <!-- /modal-06 -->
-
-				   <div id="modal-06" class="popup-modal slider mfp-hide">	
-
-				     	<div class="media">
-				     		<img src="images/portfolio/Brigham and Womens Portfolio Image.PNG" alt="" />
-				     	</div>      	
-
-					   <div class="description-box">
-					      <h4>App Development - Brigham Education Institute</h4>		      
-					      <p>During my time at Brigham and Woman's Hospital and Harvard Medical School, I spent a large portion of my
-							  time as the head UX and UI Designer on the BEI app development team. Our goal was to create an app for 
-							  students, residents and medical staff that would store all educational material at the Brigham for easy
-							  access, a pain point identified by our project lead, Dr. Narath Carlile. As a designer, especially in
-							  a field such as healthcare, accessability was absolutely paramount to success and this is something I 
-							  kept in mind throughout the project. In addition to UX and UI design, I also coded the front end of the
-							  email verification system we used using HTML, CSS and JS.
-						  </p>
-
-					      <div class="categories">UX / UI Design</div>			               
-					   </div>
-
-			         <div class="link-box">
-						<a href="https://mfspen.github.io/Portfolio/">Home</a>
-					      <a href="#" class="popup-modal-dismiss">Close</a>
-			         </div>		      
-
-				   </div> <!-- /modal-06 -->
-
-
-				   <!-- modal popups - end
-	            ============================================================= -->
-
-	         </div> <!-- /portfolio-wrapper --> 
-
-   		</div>  <!-- /twelve -->   
-
-   	</div> <!-- /portfolio-content --> 
+			})
+	</script>
 		
-	</section> <!-- /portfolio --> 
-	
-	
-
-		
-
-   	<!--Education section
-   	<div class="row resume-timeline">
-
-   		<div class="col-twelve resume-header">
-
-   			<h2>Education</h2>
-
-   		</div> 
-
-   		<div class="col-twelve">
-
-   			<div class="timeline-wrap">
-
-   				<div class="timeline-block">
-
-	   				<div class="timeline-ico">
-	   					<i class="fa fa-briefcase"></i>
-	   				</div>
-
-	   				<div class="timeline-header">
-	   					<h5>BFA, UX Design</h5>
-	   					<p>September 2019 - Present</p>
-	   				</div>
-
-	   				<div class="timeline-content">
-	   					<h4>Northeastern University, Boston</h4>
-	   					<p>I am a UX Design major here at Northeastern University after switching from Engineering and Computer Science, in pursuit of interacting more with the client. My minors are in User Interation Design and Design Engineering.</p>
-	   				</div>
-
-	   			</div>  
-
-	   			<div class="timeline-block">
-
-	   				<div class="timeline-ico">
-	   					<i class="fa fa-briefcase"></i>
-	   				</div>
-
-	   				<div class="timeline-header">
-	   					<h5>High School Education</h5>
-	   					<p>Janurary 2014 - December 2018</p>
-	   				</div>
-
-	   				<div class="timeline-content">
-	   					<h4>Rathkeale College</h4>
-	   					<p>I attended Rathkeale College back in my home country, New Zealand (we call high school, college). Here I had a heavy focus in STEM study, which has led me to a fantastic understanding of the design process, and how to utilize it to solve problems.</p>
-	   				</div>
--->
-	   			</div> <!-- /timeline-block -->
-
-	   			</div> <!-- /timeline-block -->
-
-   			</div> <!-- /timeline-wrap -->   			
-
-   		</div> <!-- /col-twelve -->
-   		
-   	</div> <!-- /resume-timeline -->
-		
-	
-
-
-	<!-- services Section
-   ================================================== -->
-	<!-- <section id="services">
-
-		<div class="overlay"></div>
-
-		<div class="row section-intro">
-   		<div class="col-twelve">
-
-   			<h5>Toolbox</h5>
-   			<h1>Technologies Used</h1>
-
-   		</div>   		
-   	</div> <!-- /section-intro -->
-	<!--
-   	<div class="row services-content">
-
-   		<div id="owl-slider" class="owl-carousel services-list">
-
-	      	<div class="service">	
-
-	      		<span class="icon"><i class="icon-paper-plane"></i></span>            
-
-	            <div class="service-content">	
-
-	            	 <h5 style="color: white">D3 & Three.js</h5>
-
-		            <p class="desc">Throughout this course, learning about D3 and my further exploration in Three.js and other
-						javascript libraries have been crucial to the development of this project. This, combined 
-	         		</p>
-	         		
-	         	</div> 	         	 
-
-				</div> <!-- /service -->
-				<!--
-				<div class="service">	
-
-					<span class="icon"><i class="icon-paint-brush"></i></span>                          
-
-	            <div class="service-content">	
-
-	            	<h4 style="color: white">UX / UI Design</h4>  
-
-		            <p class="desc">UX and UI design really meets at the crossroads of all of my strengths and what I feel most comfortable
-						doing when it comes to design. My projects at Generate, Brigham and Harvard Medical School and through my design classes
-						have prepared me well to solve high level design problems.
-	         		</p>
-
-	            </div>	                          
-
-			   </div> <!-- /service -->
-			   <!--
-			   <div class="service">
-
-			   	<span class="icon"><i class="icon-window"></i></span>		            
-
-	            <div class="service-content">
-
-	            	<h4 style="color: white">Front End Development</h4>
-
-		            <p class="desc">From working on this very portfolio to my time at Brigham, front end development is something I am no
-						stranger to and happily immerse myself in. Through projects like the BEI app and some of my coursework at Northeastern
-						I am equipped with the HTML, CSS and JavaScript knowledge to navigate and develop the interfaces I design.
-	        			</p> 
-
-	            </div> 	            	               
-
-			   </div> <!-- /service -->
-
-	      </div> <!-- /services-list -->
-   		
-   	</div> <!-- /services-content -->
-		
-	</section> <!-- /services -->	
-
-
-	<!-- stats Section
-   ================================================== 
-	<section id="stats" class="count-up">
-
-		<div class="row">
-			<div class="col-twelve">
-
-				<div class="block-1-6 block-s-1-3 block-tab-1-2 block-mob-full stats-list">
-
-					<div class="bgrid stat">
-
-						<div class="icon-part">
-							<i class="icon-pencil-ruler"></i>
-						</div>
-
-						<h3 class="stat-count">
-							1500
-						</h3>
-
-						<h5 class="stat-title">
-							Projects Completed
-						</h5>
-
-					</div> <!-- /stat 					
-
-					<div class="bgrid stat">
-
-						<div class="icon-part">
-							<i class="icon-users"></i>
-						</div>
-
-						<h3 class="stat-count">
-							900
-						</h3>
-
-						<h5 class="stat-title">
-							Happy Clients
-						</h5>
-
-					</div> <!-- /stat 
-
-					<div class="bgrid stat">
-
-						<div class="icon-part">
-							<i class="icon-badge"></i>
-						</div>
-
-						<h3 class="stat-count">
-							200
-						</h3>
-
-						<h5 class="stat-title">
-							Awards Received
-						</h5>
-
-					</div> <!-- /stat 									
-
-					<div class="bgrid stat">
-
-						<div class="icon-part">
-							<i class="icon-light-bulb"></i>
-						</div>
-
-						<h3 class="stat-count">
-							120
-						</h3>
-
-						<h5 class="stat-title">
-							Crazy Ideas
-						</h5>
-
-					</div> <!-- /stat 
-
-					<div class="bgrid stat">
-
-						<div class="icon-part">
-							<i class="icon-cup"></i>
-						</div>
-
-						<h3 class="stat-count">
-							1500
-						</h3>
-
-						<h5 class="stat-title">
-							Coffee Cups
-						</h5>
-
-					</div> <!-- /stat 
-
-					<div class="bgrid stat">
-
-						<div class="icon-part">
-							<i class="icon-clock"></i>
-						</div>
-
-						<h3 class="stat-count">
-							7200
-						</h3>
-
-						<h5 class="stat-title">
-							Hours
-						</h5>
-
-					</div> <!-- /stat -->
-
-				</div> <!-- /stats-list -->
-
-			</div> <!-- /twelve -->
-		</div> <!-- /row -->
-
-	</section> <!-- /stats -->
-	<!-- <section id="contact">
-
-		<div class="row section-intro">
-   		<div class="col-twelve">
-
-   			<h5>Contact</h5>
-   			<h1>I'd Love To Hear From You.</h1>
-
-   			<p class="lead">Lorem ipsum Do commodo in proident enim in dolor cupidatat adipisicing dolore officia nisi aliqua incididunt Ut veniam lorem ipsum Consectetur ut in in eu do.</p>
-
-   		</div> 
-   	</div> <!-- /section-intro -->
-
-   	<!-- <div class="row contact-form">
-
-   		<div class="col-twelve">
-
-            <!-- form -->
-            <!--<form name="contactForm" id="contactForm" method="post" action="">
-      			<fieldset>
-
-                  <div class="form-field">
- 						   <input name="contactName" type="text" id="contactName" placeholder="Name" value="" minlength="2" required="">
-                  </div>
-                  <div class="form-field">
-	      			   <input name="contactEmail" type="email" id="contactEmail" placeholder="Email" value="" required="">
-	               </div>
-                  <div class="form-field">
-	     				   <input name="contactSubject" type="text" id="contactSubject" placeholder="Subject" value="">
-	               </div>                       
-                  <div class="form-field">
-	                 	<textarea name="contactMessage" id="contactMessage" placeholder="message" rows="10" cols="50" required=""></textarea>
-	               </div>                      
-                 <div class="form-field">
-                     <button class="submitform">Submit</button>
-                     <div id="submit-loader">
-                        <div class="text-loader">Sending...</div>                             
-       				      <div class="s-loader">
-								  	<div class="bounce1"></div>
-								  	<div class="bounce2"></div>
-								  	<div class="bounce3"></div>
-								</div>
-							</div>
-                  </div>
-
-      			</fieldset>
-      		</form> <!-- Form End -->
-
-            <!-- contact-warning -->
-            <div id="message-warning"></div>            
-            <!-- contact-success -->
-      		<div id="message-success">
-               <i class="fa fa-check"></i>Your message was sent, thank you!<br>
-      		</div>
-
-         </div> <!-- /col-twelve -->
-   		
-   	</div> <!-- /contact-form -->
-
-  
-	
-   <!-- footer
-   ================================================== -->
-
-   <footer>
-     	<div class="row">
-
-
-	      	<div id="go-top">
-		         <a class="smoothscroll" title="Back to Top" href="#top"><i class="fa fa-long-arrow-up"></i></a>
-		      </div>
-
-      	</div> <!-- /row -->     	
-   </footer>  
-
-   <div id="preloader"> 
-    	<div id="loader"></div>
-   </div> 
-
-  <!-- js -->
-   <script src="js/jquery-2.1.3.min.js"></script>
-   <script src="js/plugins.js"></script>
-   <script src="js/main.js"></script>
+	</div>
+</section>
 
 </body>
 
