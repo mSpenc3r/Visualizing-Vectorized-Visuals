@@ -119,11 +119,8 @@
 </div> 
 <div class="row about-content">
 	<p>A 3D representation of the relationship between artists, the movement in which their work was constructed, and the time period in which it was published would allow for a more comprehensive understanding of the artistic landscape.
-
 		By representing these three factors in three dimensions, we could visualize the interconnections between them, seeing how artists and movements related to each other across time.
-		
 		This visualization could help us better understand the evolution of artistic movements over time, revealing how artists and movements influenced each other and how they responded to changes in the cultural and historical context.
-		
 		Additionally, a 3D representation could reveal patterns and clusters in the data that might not be immediately apparent in a 2D representation, helping us to identify new connections and relationships between artists and movements. 
 	</p>
 </div>
@@ -131,49 +128,151 @@
 		
 		<div id="myDiv">
 			<script>
-							d3.csv('https://raw.githubusercontent.com/plotly/datasets/master/3d-scatter.csv', function(err, rows){
-					function unpack(rows, key) {
-						return rows.map(function(row)
-						{ return row[key]; });}
+					d3.csv('./data/3DData.csv', function(err, rows) {
 
-					var Artists = {
-						x:unpack(rows, 'x1'), y: unpack(rows, 'y1'), z: unpack(rows, 'z1'),
-						mode: 'markers',
-						marker: {
-							size: 12,
-							line: {
-							color: 'rgba(217, 217, 217, 0.14)',
-							width: 0.5},
-							opacity: 0.8},
-						type: 'scatter3d'
-					};
+						function unpack(rows, key) {
+							return rows.map(function(row)
+							{ return row[key]; });}
 
-					var Works = {
-						x:unpack(rows, 'x2'), y: unpack(rows, 'y2'), z: unpack(rows, 'z2'),
-						mode: 'markers',
-						marker: {
-							color: 'rgb(127, 127, 127)',
-							size: 12,
-							symbol: 'circle',
-							line: {
-							color: 'rgb(204, 204, 204)',
-							width: 1},
-							opacity: 0.8},
-						type: 'scatter3d'};
+						var Works1 = {
+							x:unpack(rows, 'ArtistName1'), y: unpack(rows, 'Movement1'), z: unpack(rows, 'Year1'),
+							mode: 'markers',
+							marker: {
+								color: 'rgb(lightblue)',
+								size: 12,
+								symbol: 'circle',
+								line: {
+								color: 'rgb(red)',
+								width: 1},
+								opacity: 0.8},
+								name: 'Otto Dix',
+							type: 'scatter3d'
+						};
+						var Works2 = {
+							x:unpack(rows, 'ArtistName2'), y: unpack(rows, 'Movement2'), z: unpack(rows, 'Year2'),
+							mode: 'markers',
+							marker: {
+								color: 'rgb(black)',
+								size: 12,
+								symbol: 'circle',
+								line: {
+								color: 'rgb(204, 204, 204)',
+								width: 1},
+								opacity: 0.8},
+								name: 'Andy Warhol',
+							type: 'scatter3d'
+						};
+						var Works3 = {
+							x:unpack(rows, 'ArtistName3'), y: unpack(rows, 'Movement3'), z: unpack(rows, 'Year3'),
+							mode: 'markers',
+							marker: {
+								color: 'rgb(red)',
+								size: 12,
+								symbol: 'circle',
+								line: {
+								color: 'rgb(204, 204, 204)',
+								width: 1},
+								opacity: 0.8},
+								name: 'Yoshihara Jiro',
+							type: 'scatter3d'
+						};
+						var Works = {
+							x:unpack(rows, 'ArtistName'), y: unpack(rows, 'Movement'), z: unpack(rows, 'Year'),
+							mode: 'markers',
+							marker: {
+								
+								size: 12,
+								line: {
+								color: 'rgba(217, 217, 217, 0.14)',
+								width: 0.5},
+								opacity: 0.8},
+								name: 'Marcel Duchamp',
+							type: 'scatter3d'
+						};
+						var Works4 = {
+							x:unpack(rows, 'ArtistName4'), y: unpack(rows, 'Movement4'), z: unpack(rows, 'Year4'),
+							mode: 'markers',
+							marker: {
+								color: 'rgb(green)',
+								size: 12,
+								symbol: 'circle',
+								line: {
+								color: 'rgb(204, 204, 204)',
+								width: 1},
+								opacity: 0.8},
+								name: 'Jackson Pollock',
+							type: 'scatter3d'
+						};
+						var Works5 = {
+							x:unpack(rows, 'ArtistName5'), y: unpack(rows, 'Movement5'), z: unpack(rows, 'Year5'),
+							mode: 'markers',
+							marker: {
+								color: 'rgb(yellow)',
+								size: 12,
+								symbol: 'circle',
+								line: {
+								color: 'rgb(204, 204, 204)',
+								width: 1},
+								opacity: 0.8},
+								name: 'Pablo Picasso',
+							type: 'scatter3d'
+						};
+						var Works6 = {
+							x:unpack(rows, 'ArtistName6'), y: unpack(rows, 'Movement6'), z: unpack(rows, 'Year6'),
+							mode: 'markers',
+							marker: {
+								color: 'rgb(nice)',
+								size: 12,
+								symbol: 'circle',
+								line: {
+								color: 'rgb(204, 204, 204)',
+								width: 1},
+								opacity: 0.8},
+								name: 'Vincent Van Gogh',
+							type: 'scatter3d'
+						};
+						var Works7 = {
+							x:unpack(rows, 'ArtistName7'), y: unpack(rows, 'Movement7'), z: unpack(rows, 'Year7'),
+							mode: 'markers',
+							marker: {
+								color: 'rgb(small)',
+								size: 12,
+								symbol: 'circle',
+								line: {
+								color: 'rgb(204, 204, 204)',
+								width: 1},
+								opacity: 0.8},
+								name: 'Max Ernst',
+							type: 'scatter3d'
+						};
+						var Works8 = {
+							x:unpack(rows, 'ArtistName8'), y: unpack(rows, 'Movement8'), z: unpack(rows, 'Year8'),
+							mode: 'markers',
+							marker: {
+								color: 'rgb(huge)',
+								size: 12,
+								symbol: 'circle',
+								line: {
+								color: 'rgb(204, 204, 204)',
+								width: 1},
+								opacity: 0.8},
+								name: 'Edouard Manet',
+							type: 'scatter3d'
+						};
 
-					var data = [Artists, Works];
-					
-					var layout = {
-						autosize: false,
-						width: 1600,
-						height: 500,
-						margin: {
-						l: 0,
-						r: 0,
-						b: 0,
-						t: 0
-					}};
-					Plotly.newPlot('myDiv', data, layout, {displayModeBar: false});
+						var data = [Works, Works1, Works2, Works3, Works4, Works5, Works6, Works7, Works8];
+						
+						var layout = {
+							autosize: false,
+							width: 1200,
+							height: 500,
+							margin: {
+							l: 0,
+							r: 0,
+							b: 0,
+							t: 0
+						}};
+						Plotly.newPlot('myDiv', data, layout, {displayModeBar: false});
 					});
 			</script>
 			
@@ -194,12 +293,18 @@
 		</div>   		
 	</div> 
 	<div class="row about-content">
-		<p>Max ipsum dolor sit amet, consectetur adipiscing elit. Duis molestie eget lacus vel dictum. Aenean interdum pharetra lorem et venenatis. Phasellus sodales ante ac gravida condimentum. Morbi porta, risus eget laoreet fermentum, metus lorem accumsan elit, quis sodales enim lorem vel mi. Aliquam sed sem eget eros fermentum imperdiet. Sed sit amet leo pretium, pretium eros a, eleifend sapien. Mauris sodales rhoncus vestibulum. Nam vestibulum aliquam fringilla.s
+		<p>The first bar chart represents the number of works completed over an artist's lifetime. The chart shows the number of works completed by an artist, with the x-axis indicating the artist's name and the y-axis indicating the number of works completed. The bars in the chart show the number of works completed by each artist, with the height of the bars representing the number of works completed.
+
+			The second bar chart represents the number of works completed in a specific movement by artists of note, such as fauvists, impressionists, and so on. The chart shows the number of works completed by artists in a particular movement, with the x-axis indicating the name of the movement and the y-axis indicating the number of works completed. The bars in the chart show the number of works completed by artists in each movement, with the height of the bars representing the number of works completed.
+			This chart can provide insights into the productivity and influence of artists in a particular movement.
 		</p>
 	</div>
 </section>
 <section>
-	<div id="my_dataviz"></div>
+	<div>
+		<div id="my_dataviz2"></div>
+	</div>
+	
 		<script>
 			// set the dimensions and margins of the graph
 			var margin = {top: 30, right: 30, bottom: 70, left: 60},
@@ -207,7 +312,7 @@
 				height = 400 - margin.top - margin.bottom;
 
 			// append the svg object to the body of the page
-			var svg = d3.select("#my_dataviz")
+			var svg = d3.select("#my_dataviz2")
 			.append("svg")
 				.attr("width", width + margin.left + margin.right)
 				.attr("height", height + margin.top + margin.bottom)

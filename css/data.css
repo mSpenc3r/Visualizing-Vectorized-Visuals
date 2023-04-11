@@ -1,7 +1,12 @@
 #my_dataviz {
-    align-self: center;
-    padding-left: 420px;
+    
+}
+#my_dataviz2{
+    text-align: center;
 }
 #myDiv {
     padding-left: 0px;
 }
+.grid-container {
+    display: grid;
+  }
