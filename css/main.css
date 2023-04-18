@@ -77,13 +77,9 @@ body {
 	line-height: 3rem;
 	color: #6e6e6e;
 }
-#myDiv {
-	color:white;
-	margin-left: 15%;
-	
-}
 #Dvis {
-	align-items: center;
+	padding-left: 15%;
+	padding-right: 25%;
 }
 /**
  * links - (_document-setup.scss)

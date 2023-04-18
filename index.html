@@ -1,41 +1,26 @@
 <!DOCTYPE html>
-<!--[if IE 8 ]><html class="no-js oldie ie8" lang="en"> <![endif]-->
-<!--[if IE 9 ]><html class="no-js oldie ie9" lang="en"> <![endif]-->
-<!--[if (gte IE 9)|!(IE)]><!--><html class="no-js" lang="en"> <!--<![endif]-->
+<html class="no-js" lang="en"> 
 <head>
 	<script src="https://kit.fontawesome.com/418bff0045.js" crossorigin="anonymous"></script>
 	<script src='https://cdn.plot.ly/plotly-2.18.2.min.js'></script>
 	<script src='https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js'></script>
 	<script src="https://d3js.org/d3.v4.js"></script>
 
-   <!--- basic page needs
-   ================================================== -->
+  
    <meta charset="utf-8">
 	<title>Visualizing Vectorized Visuals</title>
 	<meta name="title" property="og:title" content="Visualizing Vectorized Visuals">
 	<meta name="image" property="og:image" content="">
-	<meta name="description" content="">  
-	<meta name="author" content="">
-
-   <!-- mobile specific metas
-   ================================================== -->
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
- 	<!-- CSS
-   ================================================== -->
    <link rel="stylesheet" href="css/base.css">  
    <link rel="stylesheet" href="css/main.css">
    <link rel="stylesheet" href="css/vendor.css">  
    <link rel="stylesheet" href="css/data.css">   
 
-   <!-- script
-   ================================================== -->   
 	<script src="js/modernizr.js"></script>
 	<script src="js/pace.min.js"></script>
 
-   <!-- favicons
-	================================================== -->
-	<link rel="icon" type="image/png" href="favicon.png">
 
 </head>
 
@@ -44,8 +29,6 @@
    	</div> <!-- /row --> 		
    </header> <!-- /header -->
 
-	<!-- intro section
-   ================================================== -->
    <section id="intro">   
 
    	<div class="intro-overlay"></div>	
@@ -69,14 +52,11 @@
 	   		</div>  
    			
    		</div>   		 		
-   	</div> <!-- /intro-content -->      
-	 </ul> <!-- /intro-social -->      	   	
+   	</div>     
+	 </ul>   	   	
 
-   </section> <!-- /intro -->
+   </section>
 
-
-   <!-- about section
-   ================================================== -->
    <section id="about">  
 
    	<div class="row section-intro">
@@ -89,7 +69,7 @@
    			</div>   			
 
    		</div>   		
-   	</div> <!-- /section-intro -->
+   	</div> 
 
    	<div class="row about-content">
 		<p>I have always struggled to connect art movements throughout the 19th and 20th centuries to their specific time periods. Additionally, I have always wondered which artists overlapped where, where in time did this occur
@@ -285,7 +265,7 @@
 		<div class="col-twelve">
 	
 			<h5>Visualization Two</h5>
-			<h1>A 2D Visualization of Artists and Movements</h1>
+			<h1>A 2D Visualization of completed work by artists</h1>
 	
 			<div class="intro-info">
 			</div>   			
@@ -293,10 +273,9 @@
 		</div>   		
 	</div> 
 	<div class="row about-content">
-		<p>The first bar chart represents the number of works completed over an artist's lifetime. The chart shows the number of works completed by an artist, with the x-axis indicating the artist's name and the y-axis indicating the number of works completed. The bars in the chart show the number of works completed by each artist, with the height of the bars representing the number of works completed.
-
-			The second bar chart represents the number of works completed in a specific movement by artists of note, such as fauvists, impressionists, and so on. The chart shows the number of works completed by artists in a particular movement, with the x-axis indicating the name of the movement and the y-axis indicating the number of works completed. The bars in the chart show the number of works completed by artists in each movement, with the height of the bars representing the number of works completed.
-			This chart can provide insights into the productivity and influence of artists in a particular movement.
+		<p>This chart defines just how many works the artist completed over their lifetime, allowing us to understand how different the movements these artists 
+			contributed to varied in the way art was produced. For example, in the case of Andy Warhol, who was regarded as the 'Pope of Pop' (the pop art movement),
+			used alot of print based process, while Van Gogh depended more on Oil on Canvas for his process.
 		</p>
 	</div>
 </section>
@@ -306,12 +285,12 @@
 	</div>
 	
 		<script>
-			// set the dimensions and margins of the graph
+			
 			var margin = {top: 30, right: 30, bottom: 70, left: 60},
 				width = 460 - margin.left - margin.right,
 				height = 400 - margin.top - margin.bottom;
 
-			// append the svg object to the body of the page
+			
 			var svg = d3.select("#my_dataviz2")
 			.append("svg")
 				.attr("width", width + margin.left + margin.right)
@@ -320,15 +299,19 @@
 				.attr("transform",
 					"translate(" + margin.left + "," + margin.top + ")");
 
-			// Parse the Data
+			var colors = d3.scale.ordinal()
+    			.domain(['Andy Warhol','Pablo Picasso', 'Otto Dix','Vincent Van Gogh','Marcel Duchamp','Jackson Pollock','Yoshihara Jiro'])
+    			.range(['red', 'white', 'green', 'blue', 'yellow', 'pink', 'lime', 'black', 'navy', 'silver', 'skyblue', 'purple', 'olive' ]);
+
+			
 			d3.csv("./data/artists.csv", function(data) {
 
-			// sort data
+	
 			data.sort(function(b, a) {
 				return a.Value - b.Value;
 			});
 
-			// X axis
+			
 			var x = d3.scaleBand()
 				.range([ 0, width ])
 				.domain(data.map(function(d) { return d.Artist; }))
@@ -340,14 +323,14 @@
 				.attr("transform", "translate(-10,0)rotate(-45)")
 				.style("text-anchor", "end");
 
-			// Add Y axis
+		
 			var y = d3.scaleLinear()
 				.domain([0, 13000])
 				.range([ height, 0]);
 			svg.append("g")
 				.call(d3.axisLeft(y));
 
-			// Bars
+			
 			svg.selectAll("mybar")
 				.data(data)
 				.enter()
@@ -356,8 +339,9 @@
 				.attr("y", function(d) { return y(d.Value); })
 				.attr("width", x.bandwidth())
 				.attr("height", function(d) { return height - y(d.Value); })
-				.attr("fill", "#69b3a2");
-
+				.attr("fill", "#87CEEB");
+			
+			
 			});
 		</script>
 </section>

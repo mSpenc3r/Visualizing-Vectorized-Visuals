@@ -5,7 +5,7 @@
     text-align: center;
 }
 #myDiv {
-    padding-left: 0px;
+    padding-left: 10px;
 }
 .grid-container {
     display: grid;
